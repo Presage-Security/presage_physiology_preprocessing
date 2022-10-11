@@ -1,3 +1,3 @@
-from .preprocessing import *
+from .preprocessing import video_preprocess
 def process(video_path):
-    print("")
+    return video_preprocess(video_path)

@@ -2,7 +2,7 @@ from presage_physiology_preprocessing import mediapipefunctions
 import ffmpeg
 import json
 import cv2
-
+import numpy as np
 
 
 class NumpyArrayEncoder(json.JSONEncoder):
@@ -356,8 +356,7 @@ def video_preprocess(path):
                 continue
             if not orientation_done:
                 vid_height, vid_width = frame.shape[:2]
-                print("Video Height:", vid_height)
-                print("Video Width:", vid_width)
+
                 orientation_done = True
 
             if np.mod(frame_index, mod_amount) == 0:

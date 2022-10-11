@@ -6,13 +6,11 @@ videos
 logs
 build
 dist
-presage_physiology/temp_frames/
 **__pycache__**
 **.idea**
-presage_physiology/Videos/
-presage_physiology/logs
 **logs**
 test.py
 tests/test_videos/*
 **.pytest_cache**
 Presage_Technologies.egg-info
+/tests/test_videos
