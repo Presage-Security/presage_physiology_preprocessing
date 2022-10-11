@@ -32,8 +32,6 @@ $ pip install presage_physiology_preprocessing
 
 ## Preprocessing Usage
 
-### Google Colab Demo
-
 
 After installation, import the client class into your project and initialize with the API key:
 
