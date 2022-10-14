@@ -5,6 +5,7 @@
 A Python helper packages for preprocessing video prior to uploading to Presage Technologies' APIs. [Presage Technologies](https://presagetechnologies.com)
 
 
+<<<<<<< HEAD
 ## License
 
 Provided under [MIT License] by Presage Technologies.
@@ -17,6 +18,8 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
+=======
+>>>>>>> main
 ## General
 
 Helper package for [Physiology API](https://physiology.presagetech.com)

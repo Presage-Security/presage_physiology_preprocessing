@@ -12,5 +12,5 @@ dist
 test.py
 tests/test_videos/*
 **.pytest_cache**
-Presage_Technologies.egg-info
+Presage_Physiology_Preprocessing.egg-info
 /tests/test_videos
