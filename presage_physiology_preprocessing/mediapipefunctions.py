@@ -23,5 +23,5 @@ def get_face_mesh_landmarks(frame, face_mesh):
     for idx in ls_single_face:
         mesh_pts.append(np.array(_normalized_to_pixel_coordinates(idx.x, idx.y, image_cols, image_rows)))
 
-    mesh_pts = np.array(mesh_pts)
+    mesh_pts = np.array(mesh_pts, dtype=object)
     return mesh_pts, face_mesh
