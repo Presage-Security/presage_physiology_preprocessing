@@ -2,6 +2,7 @@ absl-py==1.2.0
 attrs==22.1.0
 backports.entry-points-selectable==1.1.1
 bleach==5.0.1
+boto3==1.24.93
 build==0.8.0
 charset-normalizer==2.1.1
 commonmark==0.9.1
