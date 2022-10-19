@@ -3,7 +3,7 @@ import ffmpeg
 import json
 import cv2
 import numpy as np
-
+from importlib.metadata import version
 
 class NumpyArrayEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -16,7 +16,43 @@ class NumpyArrayEncoder(json.JSONEncoder):
         else:
             return super(NumpyArrayEncoder, self).default(obj)
 
+def get_x_int(pt1, pt2):
+    """
+    with pt1 and pt2 creating a line, what is the intercept x point of that line with y=0
+    pt1 and pt2 are tuples [x1,y1] and [x2,y2], respectively
+    """
+    m = (pt2[1] - pt1[1])/(pt2[0] - pt1[0])
+    x0 = pt2[0]-pt2[1]/m
+    return x0
 
+def track_points_rr(frame, frame_prev, points_prev):
+    corners = []
+    try:
+        lk_params = dict(winSize=(15, 15),
+                         maxLevel=3,
+                         criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
+
+        corners_1, corners_Found1, err1 = cv2.calcOpticalFlowPyrLK(frame_prev, frame, points_prev, None, **lk_params)
+        corners_0, corners_Found2, err2 = cv2.calcOpticalFlowPyrLK(frame, frame_prev, corners_1, None, **lk_params)
+        corners_1v = []
+        corners_0v = []
+
+        for cc in range(points_prev.shape[0]):
+            if (corners_Found1[cc] and corners_Found2[cc]) and (np.sqrt(np.sum((points_prev[cc]-corners_0[cc])**2)) < 2 ):
+                corners_0v.append(corners_0[cc])
+                corners_1v.append(corners_1[cc])
+            else:
+                corners_0v.append(np.array([[np.nan, np.nan]]))
+                corners_1v.append(np.array([[np.nan, np.nan]]))
+        corners_0v = np.array(corners_0v)
+        corners_1v = np.array(corners_1v)
+        corners = np.float32(corners_1v)
+
+        # corners = np.array(corners_1v)
+        valid_count = np.sum([~np.isnan(x[0][0]) for x in corners])
+    except Exception as ex:
+        print(f'Error in track points rr: {ex}')
+    return corners
 
 def get_rr_tracking_pts(frame, face_location):
     """
@@ -288,52 +324,39 @@ def frame_skipper_rr(fps, mod_hr):
     mod_rr = mod_hr * round(mod_rr / mod_hr)
     return mod_rr
 
-def get_settings_variables(settings):
-    """
-    goes through the settings module and finds which attributes are variables
-    - outputs it to a dictionary to be saved later
-    """
-    svar = {}
-    for v in dir(settings):
-        try:
-            attribute = eval(f'settings.{v}')
-            if not (callable(attribute) or isinstance(attribute, ModuleType) or v[0:2] == '__'):
-                svar[v] = attribute
-        except Exception as ex:
-            print(f'Could not export setting variables, error: {ex}')
-            pass
 
-    return svar
-
-def video_preprocess(path):
+def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
     """
     Video_preprocess reads in a video from source (path) and subsequently processes each frame into a set of variables stored in traces
     - internally used parameter variables are stored in settings
     - traces a python dict which is then serialized into a json object and returned
      - traces can be post processed to extract absolute vital measurements
     """
+
     traces = {}
     cap = cv2.VideoCapture(path)
     fps_orig = round(cap.get(cv2.CAP_PROP_FPS))
     vid_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    mod_amount = frame_skipper(fps_orig, 10)
+    mod_amount = frame_skipper(fps_orig, HR_FPS)
     mod_amount_rr = frame_skipper_rr(fps_orig, mod_amount)
-
-    traces['settings']= {"FPS_ORIG_EFF":round(fps_orig / mod_amount),
-    "FPS_NR_EFF":fps_orig / mod_amount, "FPS_OG":fps_orig,
-    "MOD_AMOUNT_HR":mod_amount, "MOD_AMOUNT_RR":mod_amount_rr,
-    "TOTAL_FRAMES":int(vid_length / mod_amount) + 1, "DN_SAMPLE":1, "HR_FPS":10,
-    "RR_SPEC_PARAMS":{"band_time": 15, "band_bpm": [4, 40], "delta_t": 1, "delta_bpm": .2,
-    "normalize": True, "snr_thresh": 2},"HR_SPEC_PARAMS":{"band_time":10}
-
-    }
-
-
+    try:
+        #this allows us to lookup the version without a circular import
+        version = version("presage_physiology_preprocessing")
+    except:
+        #this will occur when it isn't installed so could happen when you are testing
+        version = "unknown"
+    # todo: add version
+    traces['settings'] = {
+        "FPS_NR_EFF": fps_orig / mod_amount,
+        "MOD_AMOUNT_HR": mod_amount,
+        "MOD_AMOUNT_RR": mod_amount_rr,
+        "preprocessing_version":version}
 
     orientation_done = False
     video_metadata = ffmpeg.probe(path)
     use_meta = None
     side_list_location = -1
+
     #only needed if the vertical video bug persists on mobile
     if cv2.__version__ == "4.6.0":
         for ind in video_metadata["streams"]:
@@ -377,7 +400,7 @@ def video_preprocess(path):
                             frame = cv2.rotate(frame, cv2.ROTATE_180)
 
                 frame = cv2.resize(frame,
-                                   (frame.shape[1] // traces['settings']["DN_SAMPLE"], frame.shape[0] // traces['settings']["DN_SAMPLE"]),
+                                   (frame.shape[1] // DN_SAMPLE, frame.shape[0] // DN_SAMPLE),
                                    cv2.INTER_AREA)
 
                 try:
