@@ -56,16 +56,6 @@ def upload_file(file_name, bucket, object_name=None):
 
 
 def wpu_trace_generation():
-    """
-        Iterates through WPU data, computes and saves json traces performance metrics and saves to csv
-        - saves results to AWS
-        - will need to upload to AWS MANUALLY in order to run test_accuracy_from_wpu
-
-        required for local use
-        - need to be signed in first: after set up:
-           https://docs.google.com/document/d/1K7TcVhdU2lVD24KsGJP5NhXTtwagOf9J_xmkf_MInCM/edit?usp=sharing
-        - run in terminal: aws sso login
-    """
     DOWNSAMPLE = 3
 
     # AWS saving to:
