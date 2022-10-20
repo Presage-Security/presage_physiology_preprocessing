@@ -55,11 +55,10 @@ def upload_file(file_name, bucket, object_name=None):
         print(e)
 
 
-def run_accuracy_baseline_from_wpu():
-    print("Running run_accuracy_baseline_from_wpu")
+def wpu_trace_generation():
     """
         Iterates through WPU data, computes and saves json traces performance metrics and saves to csv
-        - saves results to AWS 
+        - saves results to AWS
         - will need to upload to AWS MANUALLY in order to run test_accuracy_from_wpu
 
         required for local use
@@ -96,7 +95,7 @@ def run_accuracy_baseline_from_wpu():
                 print(pid, "Does not exist in table. Skipping.")
                 continue
             meta_row = meta_row["Item"]
-            file_paths = [meta_row.get("Location", None)]
+            file_paths = [meta_row.get("Clipped_Location", None)]
 
             for file in file_paths:
                 if file:
@@ -106,7 +105,7 @@ def run_accuracy_baseline_from_wpu():
                                               os.path.join(temp_dir, pid + "." + file.split(".")[-1]), temp_dir)
 
                     # Compute trace and vitals
-                    print(f'Running vitals on video: {vid_path}')
+                    print(f'Processing trace for: {vid_path}')
                     trace = process(vid_path) # , DN_SAMPLE=DOWNSAMPLE)
 
                     # save traces to temp json
@@ -151,4 +150,4 @@ def run_accuracy_baseline_from_wpu():
 
 
 if __name__ == '__main__':
-    run_accuracy_baseline_from_wpu()
+    wpu_trace_generation()
