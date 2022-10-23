@@ -19,6 +19,7 @@ include:
     ref: 'main'
     file: 'scripts-checkout.yml'
 
+
     # Scan SAST
   - project: 'presage/infrastructure/ci-templates'
     ref: 'main'
