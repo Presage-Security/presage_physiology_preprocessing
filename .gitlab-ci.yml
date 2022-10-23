@@ -8,14 +8,17 @@ include:
   - project: 'presage/infrastructure/ci-templates'
     ref: 'main'
     file: 'prebuild.yml'
+
     # Run Safety Upstream Dependenacy check
   - project: 'presage/infrastructure/ci-templates'
     ref: 'main'
     file: 'security/safety.yml'
+
     # Checkout CI/CD Scripts
   - project: 'presage/infrastructure/ci-templates'
     ref: 'main'
     file: 'scripts-checkout.yml'
+
     # Scan SAST
   - project: 'presage/infrastructure/ci-templates'
     ref: 'main'
