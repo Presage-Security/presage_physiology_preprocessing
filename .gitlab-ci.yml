@@ -29,7 +29,6 @@ include:
 variables:
   REPOSITORY_URL: "https://pypi.org/project/Presage-Physiology-Preprocessing/"
 
-
 stages:
   - pre
   - security
