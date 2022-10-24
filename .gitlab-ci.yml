@@ -1,0 +1,38 @@
+include:
+  - template: 'Workflows/MergeRequest-Pipelines.gitlab-ci.yml'
+  - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
+  - template: 'Security/Secret-Detection.gitlab-ci.yml'
+
+    # Semantic Release Job
+  - project: 'presage/infrastructure/ci-templates'
+    ref: 'main'
+    file: 'semantic-release.yml'
+
+    # Checkout Tokens for Semantic Release
+  - project: 'presage/infrastructure/ci-templates'
+    ref: 'main'
+    file: 'prebuild.yml'
+
+    # Run Safety Upstream Dependenacy check
+  - project: 'presage/infrastructure/ci-templates'
+    ref: 'main'
+    file: 'security/safety.yml'
+
+    # Checkout CI/CD Scripts
+  - project: 'presage/infrastructure/ci-templates'
+    ref: 'main'
+    file: 'scripts-checkout.yml'
+
+    # Scan SAST
+  - project: 'presage/infrastructure/ci-templates'
+    ref: 'main'
+    file: 'security/sast_scan.yml'
+
+variables:
+  REPOSITORY_URL: "https://pypi.org/project/Presage-Physiology-Preprocessing/"
+
+stages:
+  - pre
+  - security
+  - test
+  - semantic_release
