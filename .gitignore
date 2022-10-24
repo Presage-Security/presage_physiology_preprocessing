@@ -11,6 +11,8 @@ dist
 **logs**
 test.py
 tests/test_videos/*
+tests/temp/*
 **.pytest_cache**
 Presage_Physiology_Preprocessing.egg-info
 /tests/test_videos
+tests/test_traces/*
