@@ -3,15 +3,12 @@ import mediapipe as mp
 from mediapipe.python.solutions.drawing_utils import _normalized_to_pixel_coordinates
 import cv2
 POSE = mp.solutions.pose
-
-def initiate_face_mesh_model():
-    mp_face_mesh = mp.solutions.face_mesh
-    face_mesh =  mp_face_mesh.FaceMesh(
-        static_image_mode=False,
-        max_num_faces=1,
-        refine_landmarks=True,
-        min_detection_confidence=0.5)
-    return face_mesh
+mp_face_mesh = mp.solutions.face_mesh
+FACE_MESH = mp_face_mesh.FaceMesh(
+    static_image_mode=False,
+    max_num_faces=1,
+    refine_landmarks=True,
+    min_detection_confidence=0.5)
 
 
 def get_face_mesh_landmarks(frame, face_mesh):
@@ -24,4 +21,4 @@ def get_face_mesh_landmarks(frame, face_mesh):
         mesh_pts.append(np.array(_normalized_to_pixel_coordinates(idx.x, idx.y, image_cols, image_rows)))
 
     mesh_pts = np.array(mesh_pts, dtype=object)
-    return mesh_pts, face_mesh
+    return mesh_pts

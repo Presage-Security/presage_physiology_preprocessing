@@ -56,7 +56,6 @@ def upload_file(file_name, bucket, object_name=None):
 
 
 def wpu_trace_generation():
-    DOWNSAMPLE = 3
 
     # AWS saving to:
     aws_base_dir = 'Physiology/baseline'
@@ -96,7 +95,7 @@ def wpu_trace_generation():
 
                     # Compute trace and vitals
                     print(f'Processing trace for: {vid_path}')
-                    trace = process(vid_path) # , DN_SAMPLE=DOWNSAMPLE)
+                    trace = process(vid_path)
 
                     # save traces to temp json
                     print(f'Saving patient: {person_id} to temporary json {trace_temp}')
