@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.1 (2022-10-26)
+### Fix
+* Force bumping...will fix later ([`4ae8ca8`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/4ae8ca8a954d6974f7fbe1a7ecb1e81a8387bd54))
+
 ## v1.1.0 (2022-10-26)
 ### Feature
 * CI changes for upload to PYPI and security ([`b27e586`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/b27e5868c7f007596cf02d2689f8fa76b0cdd0ae))
