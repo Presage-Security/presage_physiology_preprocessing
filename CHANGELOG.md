@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.3 (2022-10-26)
+### Fix
+* Still didn't install setuptools correctly ([`f081430`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/f081430c837fdc352c4c99de8c3a34897b4e2b96))
+
 ## v1.1.2 (2022-10-26)
 ### Fix
 * Ci ([`5e961d8`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/5e961d8f9144fdcf5c8df24ceab097311492f0b5))
