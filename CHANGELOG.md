@@ -1,10 +1,8 @@
 # Changelog
 
-<!--next-version-placeholder-->
-
-## v1.1.6 (2022-10-26)
+## v1.1.5 (2022-10-26)
 ### Fix
-* Idk ([`c29c0ef`](https://gitlab.com/presage/developers/presage_physiology_preprocessing/-/commit/c29c0ef57a9fd0cb47741a39e94c6344044a6957))
+* Updating build command ([`d1104c4`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/d1104c4e89e6b459e5f817979d4941f09a069943))
 
 ## v1.1.4 (2022-10-26)
 ### Fix
