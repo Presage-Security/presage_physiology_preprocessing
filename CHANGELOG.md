@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.2 (2022-10-26)
+### Fix
+* Ci ([`5e961d8`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/5e961d8f9144fdcf5c8df24ceab097311492f0b5))
+* Misc ci changes ([`456ca70`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/456ca708d058075fc732f82b4e25ad3ae4da75bf))
+
 ## v1.1.1 (2022-10-26)
 ### Fix
 * Force bumping...will fix later ([`4ae8ca8`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/4ae8ca8a954d6974f7fbe1a7ecb1e81a8387bd54))
