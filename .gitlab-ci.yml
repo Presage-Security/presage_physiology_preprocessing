@@ -3,6 +3,7 @@ include:
   - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
   - template: 'Security/Secret-Detection.gitlab-ci.yml'
 
+
     # Semantic Release Job
   - project: 'presage/infrastructure/ci-templates'
     ref: 'main'
