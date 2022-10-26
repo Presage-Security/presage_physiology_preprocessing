@@ -4,7 +4,7 @@ this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 requirements = ['mediapipe','ffmpeg-python==0.2.0','opencv-python==4.5.5.64','numpy']
 
-__version__ = '1.1.3'
+__version__ = '1.1.4'
 
 setup(
     name='Presage Physiology Preprocessing',

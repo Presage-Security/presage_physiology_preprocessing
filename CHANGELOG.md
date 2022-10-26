@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.4 (2022-10-26)
+### Fix
+* More semantic issues ([`0db9fd4`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/0db9fd40a3551987196ee00d6f7c63992f9a06d5))
+
 ## v1.1.3 (2022-10-26)
 ### Fix
 * Still didn't install setuptools correctly ([`f081430`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/f081430c837fdc352c4c99de8c3a34897b4e2b96))
