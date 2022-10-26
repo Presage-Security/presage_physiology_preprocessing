@@ -213,14 +213,14 @@ def get_face_values(frame, face_points):
     """
     bgr = average_rois(frame, face_points)
     return bgr
-def track_points_face(frame, face_mesh_model):
+def track_points_face(frame):
     """
     Updates the new mesh face vertices simply by calling mediapipe again with the new frame
     - using the old model as input, we get less jitter and it's significantly faster
     """
     try:
-        mesh_pts, face_mesh_model = mediapipefunctions.get_face_mesh_landmarks(frame, face_mesh_model)
-        return mesh_pts, face_mesh_model
+        mesh_pts= mediapipefunctions.get_face_mesh_landmarks(frame, mediapipefunctions.FACE_MESH)
+        return mesh_pts
 
     except Exception as e:
         print(f'Error in track points face: {e}')
@@ -242,13 +242,12 @@ def get_face_points(frame):
     returns pts (good points to track for tracking), current_face_cords (media pipe face mesh points)
     returns pts: None, current_face_cords: None if there is no face found to trigger a reset
     """
-    face_mesh_model = mediapipefunctions.initiate_face_mesh_model()
     try:
-        pts, face_mesh_model = mediapipefunctions.get_face_mesh_landmarks(frame, face_mesh_model)
+        pts= mediapipefunctions.get_face_mesh_landmarks(frame, mediapipefunctions.FACE_MESH)
     except Exception as e:
         print(f'Error in getting face points: {e}')
         pts = None
-    return pts, face_mesh_model
+    return pts
 def process_frame_rr(frame, frame_last, traces_last):
     """
     proces_frame_rr analyzes the image to extract points to be tracked on upper body regions
@@ -281,25 +280,25 @@ def process_frame_rr(frame, frame_last, traces_last):
     return {"rr_pts": rr_pts, "rr_pt_labels": rr_pt_labels, 'rr_reset': reset_flag}
 
 
-def process_frame_pleth(frame, face_mesh_model):
+def process_frame_pleth(frame):
     """
     process_frame_pleth analyzes the image to extract the face location, points to track, and ultimately the RGB traces
     - all data here can be used for HR/RR/SpO2/HRV/pleth generation
     - frame_analyzed is a dictionary of all analysis content
     """
     bgr = []
-    if face_mesh_model is None:
-        hr_pts, face_mesh_model = get_face_points(frame)
+    if mediapipefunctions.FACE_MESH is None:
+        hr_pts = get_face_points(frame)
     else:
         try:
-            hr_pts, face_mesh_model = track_points_face(frame, face_mesh_model)
+            hr_pts = track_points_face(frame, mediapipefunctions.FACE_MESH)
         except:
             # here we are in a "reset" state.  the last frame analyzed didn't have points, so we start over
-            hr_pts, face_mesh_model = get_face_points(frame)
+            hr_pts = get_face_points(frame)
 
     if hr_pts is not None:
         bgr = get_face_values(frame, hr_pts)  # mean RGB over ROIs
-    return {"bgr": bgr, "hr_pts": hr_pts}, face_mesh_model
+    return {"bgr": bgr, "hr_pts": hr_pts}
 
 def frame_skipper(fps_current, fps_desired):
     """
@@ -376,7 +375,6 @@ def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
         frame_index_last_rr = 0
         traces[frame_index_last] = None
         traces[frame_index_last_rr] = None
-        face_mesh_model = None
 
         for frame_index in range(0, vid_length):
             ret, frame = cap.read()
@@ -404,7 +402,7 @@ def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
                                    cv2.INTER_AREA)
 
                 try:
-                    traces[frame_index], face_mesh_model = process_frame_pleth(frame, face_mesh_model)
+                    traces[frame_index]= process_frame_pleth(frame)
                 except Exception as e:
                     print(f"Processing error in HR analysis at frame: {frame_index}, error: {e}")
                     pass
