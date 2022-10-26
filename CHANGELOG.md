@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.6 (2022-10-26)
+### Fix
+* Idk ([`c29c0ef`](https://gitlab.com/presage/developers/presage_physiology_preprocessing/-/commit/c29c0ef57a9fd0cb47741a39e94c6344044a6957))
+
 ## v1.1.4 (2022-10-26)
 ### Fix
 * More semantic issues ([`0db9fd4`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/0db9fd40a3551987196ee00d6f7c63992f9a06d5))
