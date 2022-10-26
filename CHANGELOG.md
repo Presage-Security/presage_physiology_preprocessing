@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.2 (2022-10-26)
+### Fix
+* Publish changes ([`5e97e8d`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/5e97e8dccf94148bfe825a4d76ac7a74a9e9d96a))
+
 ## v0.0.1 (2022-10-26)
 ### Fix
 * Version number out of wack ([`8df5c62`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/8df5c627bf946308773e569ef8396b030b86ffd7))
