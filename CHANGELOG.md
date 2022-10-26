@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.5 (2022-10-26)
+### Fix
+* Updating build command ([`d1104c4`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/d1104c4e89e6b459e5f817979d4941f09a069943))
+
 ## v1.1.4 (2022-10-26)
 ### Fix
 * More semantic issues ([`0db9fd4`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/0db9fd40a3551987196ee00d6f7c63992f9a06d5))
