@@ -3,8 +3,7 @@ from pathlib import Path
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 requirements = ['mediapipe','ffmpeg-python==0.2.0','opencv-python==4.5.5.64','numpy']
-
-__version__ = '1.0.5'
+from presage_physiology_preprocessing.version import __version__
 
 setup(
     name='Presage Physiology Preprocessing',
