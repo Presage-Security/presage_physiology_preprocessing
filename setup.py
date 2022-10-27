@@ -5,9 +5,9 @@ this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 requirements = ['mediapipe','numpy','ffmpeg-python==0.2.0','opencv-python==4.5.5.64']
 main_ns = {}
-ver_path = convert_path('presage_physiology_preprocessing/version.py')
-with open(ver_path) as ver_file:
-    exec(ver_file.read(), main_ns)
+ver_path = convert_path('presage_physiology_preprocessing/version.py') # nosec
+with open(ver_path) as ver_file: # nosec
+    exec(ver_file.read(), main_ns) # nosec
 
 print("REQUIREMENTS:", requirements)
 setup(
