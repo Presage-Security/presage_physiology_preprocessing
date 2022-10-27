@@ -1,14 +1,18 @@
 from setuptools import setup
 from pathlib import Path
+from distutils.util import convert_path
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
-requirements = ['mediapipe','ffmpeg-python==0.2.0','opencv-python==4.5.5.64','numpy']
+requirements = ['mediapipe','numpy','ffmpeg-python==0.2.0','opencv-python==4.5.5.64']
+main_ns = {}
+ver_path = convert_path('presage_physiology_preprocessing/version.py')
+with open(ver_path) as ver_file:
+    exec(ver_file.read(), main_ns)
 
-__version__ = '1.0.5'
-
+print("REQUIREMENTS:", requirements)
 setup(
     name='Presage Physiology Preprocessing',
-    version=__version__,
+    version=main_ns['__version__'],
     packages=['presage_physiology_preprocessing'],
     author="Presage Technologies",
     author_email="support@presagetech.com",

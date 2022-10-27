@@ -3,8 +3,7 @@ import ffmpeg
 import json
 import cv2
 import numpy as np
-from importlib.metadata import version
-
+from presage_physiology_preprocessing.version import __version__
 class NumpyArrayEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.integer):
@@ -338,18 +337,12 @@ def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
     vid_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     mod_amount = frame_skipper(fps_orig, HR_FPS)
     mod_amount_rr = frame_skipper_rr(fps_orig, mod_amount)
-    try:
-        #this allows us to lookup the version without a circular import
-        version = version("presage_physiology_preprocessing")
-    except:
-        #this will occur when it isn't installed so could happen when you are testing
-        version = "unknown"
-    # todo: add version
+
     traces['settings'] = {
         "FPS_NR_EFF": fps_orig / mod_amount,
         "MOD_AMOUNT_HR": mod_amount,
         "MOD_AMOUNT_RR": mod_amount_rr,
-        "preprocessing_version":version}
+        "preprocessing_version":__version__}
 
     orientation_done = False
     video_metadata = ffmpeg.probe(path)
