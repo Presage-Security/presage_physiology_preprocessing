@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.0 (2022-11-03)
+### Feature
+* **core:** Import version number at init to access at top level ([`98ced0b`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/98ced0b594b6d9742a03917c40c4120f9cf13e8a))
+
 ## v1.0.7 (2022-11-03)
 ### Fix
 * **core:** Set bgr floats to round to 8 decimal places in hopes to fix float point precision across multiple machines. ([`9ae399d`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/9ae399d7c864194a6992ff0ca83e8c9aeffb669f))
