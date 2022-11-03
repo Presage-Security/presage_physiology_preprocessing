@@ -204,7 +204,7 @@ def average_rois(frame, points):
     outline = np.squeeze(cv2.convexHull(points))
     face_mask = cv2.fillPoly(dummy_mat.copy(), [outline], 1)
     whole_face = np.array(cv2.mean(frame, face_mask.astype(np.uint8)))[:-1]
-    return whole_face, grid_bgr
+    return np.around(whole_face, decimals=8), np.around(grid_bgr, decimals=8)
 
 def get_face_values(frame, face_points):
     """
