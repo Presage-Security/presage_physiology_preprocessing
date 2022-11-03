@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.0.7 (2022-11-03)
+### Fix
+* **core:** Set bgr floats to round to 8 decimal places in hopes to fix float point precision across multiple machines. ([`9ae399d`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/9ae399d7c864194a6992ff0ca83e8c9aeffb669f))
+
 ## v1.0.6 (2022-10-27)
 ### Fix
 * **core:** Fixed error where python versions below 3.8 could not correct get the version number of the package ([`f924d58`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/f924d581b2ef79aa7ecea0f0e296bdc2484ad121))
