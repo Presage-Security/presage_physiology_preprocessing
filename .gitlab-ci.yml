@@ -45,3 +45,21 @@ stages:
   - security
   - test
   - semantic_release
+  - trigger_downstream
+
+trigger_downstream:
+  rules:
+  - if: '$CI_COMMIT_BRANCH == "main"'
+  stage: trigger_downstream
+  image:
+    name: curlimages/curl
+    entrypoint: [""]
+  services:
+    - docker:dind
+  script:
+    - "curl
+      --request POST
+      --form token=$CI_JOB_TOKEN
+      --form ref=$API_REF
+      --form variables[TRIGGER_JOB]=presage_physiology_preprocessing
+      https://source.presagesecurity.com/api/v4/projects/116/trigger/pipeline"
