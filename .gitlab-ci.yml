@@ -62,4 +62,4 @@ trigger_downstream:
       --form token=$CI_JOB_TOKEN
       --form ref=$API_REF
       --form variables[TRIGGER_JOB]=presage_physiology_preprocessing
-      https://source.presagesecurity.com/api/v4/projects/116/trigger/pipeline"
+      https://source.presagesecurity.com/api/v4/projects/40/trigger/pipeline"
