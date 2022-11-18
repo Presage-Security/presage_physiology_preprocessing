@@ -402,33 +402,33 @@ def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
                                    (frame.shape[1] // DN_SAMPLE, frame.shape[0] // DN_SAMPLE),
                                    cv2.INTER_AREA)
 
-            if frame_index % mod_amount == 0:
-                #this will likely not apply on mobile since all videos are vertical
-                #but it is a good idea to make sure they are being processed right side up
+                if frame_index % mod_amount == 0:
+                    #this will likely not apply on mobile since all videos are vertical
+                    #but it is a good idea to make sure they are being processed right side up
+
+                    try:
+                        frame_data.update(process_frame_pleth(dn_frame))
+                    except Exception as e:
+                        print(f"Processing error in HR analysis at frame: {frame_index}, error: {e}")
+                        pass
 
                 try:
-                    frame_data.update(process_frame_pleth(dn_frame))
+                    # here we compute all metrics associated with RR analysis, tracked points of body
+                    if frame_index % mod_amount_rr == 0:
+                        if frame_last_rr is None and frame_index_last_rr is None:
+                            frame_data.update(process_frame_rr(frame, None, None))
+                        else:
+                            frame_data.update(process_frame_rr(frame, frame_last_rr, traces["frames"][frame_index_last_rr]))
+                        frame_index_last_rr = len(traces["frames"])
+                        frame_last_rr = frame
+
                 except Exception as e:
-                    print(f"Processing error in HR analysis at frame: {frame_index}, error: {e}")
+                    print(f"Processing error in RR analysis at frame: {frame_index}, error: {e}")
                     pass
 
-            try:
-                # here we compute all metrics associated with RR analysis, tracked points of body
-                if frame_index % mod_amount_rr == 0:
-                    if frame_last_rr is None and frame_index_last_rr is None:
-                        frame_data.update(process_frame_rr(frame, None, None))
-                    else:
-                        frame_data.update(process_frame_rr(frame, frame_last_rr, traces["frames"][frame_index_last_rr]))
-                    frame_index_last_rr = len(traces["frames"])
-                    frame_last_rr = frame
-
-            except Exception as e:
-                print(f"Processing error in RR analysis at frame: {frame_index}, error: {e}")
-                pass
-
-            if save_time:
-                frame_data.update({'time_now': round(fake_time, 3)})
-            traces["frames"].append(frame_data)
+                if save_time:
+                    frame_data.update({'time_now': round(fake_time, 3)})
+                traces["frames"].append(frame_data)
 
     except Exception as e:
         print(f"CV2 error at frame: {frame_index}, error: {e}")
