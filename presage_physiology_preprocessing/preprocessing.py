@@ -223,11 +223,11 @@ def track_points_face(frame):
 
     except Exception as e:
         print(f'Error in track points face: {e}')
-        return None, None
+        return None
 
     if not mesh_pts:
         print("No Face")
-        return None, None
+        return None
 
 def get_face_points(frame):
     """
@@ -252,12 +252,13 @@ def process_frame_rr(frame, frame_last, traces_last):
     proces_frame_rr analyzes the image to extract points to be tracked on upper body regions
     - reset flag turned on when tracking needs to be reset
     """
-
+    save_face = False
     # todo: fix resets
     try:
         face_location = traces_last['hr_pts']
     except:
-        face_location = []
+        save_face = True
+        face_location = get_face_points(frame)
 
     try:
         rr_pts_prev = traces_last["rr_pts"]
@@ -275,8 +276,10 @@ def process_frame_rr(frame, frame_last, traces_last):
         rr_pts = track_points_rr(frame, frame_last, rr_pts_prev)
 
     valid_count = np.sum([~np.isnan(x[0][0]) for x in rr_pts])
-
-    return {"rr_pts": rr_pts, "rr_pt_labels": rr_pt_labels, 'rr_reset': reset_flag}
+    data = {"rr_pts": rr_pts, "rr_pt_labels": rr_pt_labels, 'rr_reset': reset_flag}
+    if save_face:
+        data['hr_pts'] = face_location
+    return data
 
 
 def process_frame_pleth(frame):
@@ -290,7 +293,7 @@ def process_frame_pleth(frame):
         hr_pts = get_face_points(frame)
     else:
         try:
-            hr_pts = track_points_face(frame, mediapipefunctions.FACE_MESH)
+            hr_pts = track_points_face(frame)
         except:
             # here we are in a "reset" state.  the last frame analyzed didn't have points, so we start over
             hr_pts = get_face_points(frame)
@@ -319,7 +322,7 @@ def frame_skipper_rr(fps, mod_hr):
     """
     rr_fps_ideal = 5
     mod_rr = frame_skipper(fps, rr_fps_ideal)
-    mod_rr = mod_hr * round(mod_rr / mod_hr)
+    # mod_rr = round(mod_rr / mod_hr)
     return mod_rr
 
 
@@ -334,6 +337,8 @@ def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
     traces = {}
     cap = cv2.VideoCapture(path)
     fps_orig = round(cap.get(cv2.CAP_PROP_FPS))
+    if fps_orig == 0:
+        fps_orig = 30
     vid_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     mod_amount = frame_skipper(fps_orig, HR_FPS)
     mod_amount_rr = frame_skipper_rr(fps_orig, mod_amount)
@@ -343,6 +348,7 @@ def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
         "MOD_AMOUNT_HR": mod_amount,
         "MOD_AMOUNT_RR": mod_amount_rr,
         "preprocessing_version":__version__}
+    traces["frames"] = []
 
     orientation_done = False
     video_metadata = ffmpeg.probe(path)
@@ -364,12 +370,16 @@ def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
                         break
     try:
         frame_last_rr = None
-        frame_index_last = 0
-        frame_index_last_rr = 0
-        traces[frame_index_last] = None
-        traces[frame_index_last_rr] = None
-
+        frame_index_last = None
+        frame_index_last_rr = None
+        # traces[frame_index_last] = None
+        # traces[frame_index_last_rr] = None
+        fake_time = 0.0
         for frame_index in range(0, vid_length):
+            save_time = False
+            if frame_index > 0:
+                fake_time+=1/fps_orig
+            frame_data = {}
             ret, frame = cap.read()
             if not ret:
                 continue
@@ -377,10 +387,8 @@ def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
                 vid_height, vid_width = frame.shape[:2]
 
                 orientation_done = True
-
-            if np.mod(frame_index, mod_amount) == 0:
-                #this will likely not apply on mobile since all videos are vertical
-                #but it is a good idea to make sure they are being processed right side up
+            if (frame_index % mod_amount == 0) or (frame_index % mod_amount_rr == 0):
+                save_time = True
                 if cv2.__version__ == "4.6.0":
                     if frame.shape[0] > frame.shape[1]:
                         if side_list_location > -1:
@@ -390,34 +398,37 @@ def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
                         else:
                             frame = cv2.rotate(frame, cv2.ROTATE_180)
 
-                frame = cv2.resize(frame,
+                dn_frame = cv2.resize(frame,
                                    (frame.shape[1] // DN_SAMPLE, frame.shape[0] // DN_SAMPLE),
                                    cv2.INTER_AREA)
 
-                try:
-                    traces[frame_index]= process_frame_pleth(frame)
-                except Exception as e:
-                    print(f"Processing error in HR analysis at frame: {frame_index}, error: {e}")
-                    pass
+                if frame_index % mod_amount == 0:
+                    #this will likely not apply on mobile since all videos are vertical
+                    #but it is a good idea to make sure they are being processed right side up
+
+                    try:
+                        frame_data.update(process_frame_pleth(dn_frame))
+                    except Exception as e:
+                        print(f"Processing error in HR analysis at frame: {frame_index}, error: {e}")
+                        pass
 
                 try:
                     # here we compute all metrics associated with RR analysis, tracked points of body
-                    if np.mod(frame_index, mod_amount_rr) == 0:
-                        if frame_index not in traces:
-                            traces[frame_index] = {}
-
-                        rr_traces = process_frame_rr(frame, frame_last_rr, traces[frame_index_last_rr])
-                        traces[frame_index] = {**traces[frame_index], **rr_traces}
-                        frame_index_last_rr = frame_index
+                    if frame_index % mod_amount_rr == 0:
+                        if frame_last_rr is None and frame_index_last_rr is None:
+                            frame_data.update(process_frame_rr(frame, None, None))
+                        else:
+                            frame_data.update(process_frame_rr(frame, frame_last_rr, traces["frames"][frame_index_last_rr]))
+                        frame_index_last_rr = len(traces["frames"])
                         frame_last_rr = frame
 
                 except Exception as e:
                     print(f"Processing error in RR analysis at frame: {frame_index}, error: {e}")
                     pass
 
-                if frame_index in traces:
-                    time_now = {'time_now': frame_index / fps_orig}
-                    traces[frame_index] = {**traces[frame_index], **time_now}
+                if save_time:
+                    frame_data.update({'time_now': round(fake_time, 3)})
+                traces["frames"].append(frame_data)
 
     except Exception as e:
         print(f"CV2 error at frame: {frame_index}, error: {e}")
