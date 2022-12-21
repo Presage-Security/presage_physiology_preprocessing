@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.1 (2022-12-21)
+### Fix
+* Forcing version rebuild to handle CI/CD changes ([`0c75de5`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/0c75de516596cecbb1cd14c438fb641d51a13d4b))
+
 ## v1.2.0 (2022-12-20)
 ### Feature
 * **core:** Changed preprocessing format to a list instead of a dictionary to support continuous reading mode without repetitive data transforms. ([`022b52b`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/022b52b84d741f3f7e140b6af236fec94429c91a))
