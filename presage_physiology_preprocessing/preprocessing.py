@@ -326,7 +326,7 @@ def frame_skipper_rr(fps, mod_hr):
     return mod_rr
 
 
-def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
+def video_preprocess(path, HR_FPS=30, DN_SAMPLE=1):
     """
     Video_preprocess reads in a video from source (path) and subsequently processes each frame into a set of variables stored in traces
     - internally used parameter variables are stored in settings
@@ -378,7 +378,7 @@ def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
         for frame_index in range(0, vid_length):
             save_time = False
             if frame_index > 0:
-                fake_time+=1/fps_orig
+                fake_time += 1.0/fps_orig
             frame_data = {}
             ret, frame = cap.read()
             if not ret:
@@ -416,11 +416,11 @@ def video_preprocess(path, HR_FPS = 10, DN_SAMPLE = 1):
                     # here we compute all metrics associated with RR analysis, tracked points of body
                     if frame_index % mod_amount_rr == 0:
                         if frame_last_rr is None and frame_index_last_rr is None:
-                            frame_data.update(process_frame_rr(frame, None, None))
+                            frame_data.update(process_frame_rr(dn_frame, None, None))
                         else:
-                            frame_data.update(process_frame_rr(frame, frame_last_rr, traces["frames"][frame_index_last_rr]))
+                            frame_data.update(process_frame_rr(dn_frame, frame_last_rr, traces["frames"][frame_index_last_rr]))
                         frame_index_last_rr = len(traces["frames"])
-                        frame_last_rr = frame
+                        frame_last_rr = dn_frame
 
                 except Exception as e:
                     print(f"Processing error in RR analysis at frame: {frame_index}, error: {e}")
