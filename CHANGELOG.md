@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.2 (2023-07-11)
+
+### Fix
+
+* **rr:** Minor bug fixes to ensure RR works correct iwth downsampled images.  Using OpenCV 4.5. and HR_FPS=30 as default ([`fe02e3d`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/fe02e3d6e0e1f577bdc90cfcb171e98b08d89508))
+
 ## v1.2.1 (2022-12-21)
 ### Fix
 * Forcing version rebuild to handle CI/CD changes ([`0c75de5`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/0c75de516596cecbb1cd14c438fb641d51a13d4b))
