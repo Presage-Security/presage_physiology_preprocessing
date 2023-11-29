@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.4 (2023-11-29)
+
+### Fix
+
+* Missed one ([`c7f90f5`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/c7f90f542ceef6f0d6469d7d529125068439ef9b))
+* Vulnerable dependency updates ([`24ca2f5`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/24ca2f511832fa63cd755bbd8a85e006c9975dbf))
+
 ## v1.2.3 (2023-07-13)
 
 ### Fix
