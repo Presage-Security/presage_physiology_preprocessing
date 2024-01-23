@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.5 (2024-01-23)
+
+### Fix
+
+* January Immediate Security Fixes ([`aec825f`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/aec825ff018d6eb927a5fd24fdd5f2b0fd8deb4b))
+
 ## v1.2.4 (2023-11-29)
 
 ### Fix
