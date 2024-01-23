@@ -3,7 +3,7 @@ sys.path.append('..')
 from presage_physiology_preprocessing import process
 import unittest
 
-vid_path = "test_videos/mobile_example.mp4"
+vid_path = "vid_aya.avi"
 
 class DefaultFunctionsTest(unittest.TestCase):
 
