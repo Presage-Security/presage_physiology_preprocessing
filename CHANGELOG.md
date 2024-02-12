@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.6 (2024-02-12)
+
+### Fix
+
+* License update to LGPLv3 ([`55aba06`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/55aba0642fb986ad8d85b7bf39fd0116e9b8aa62))
+
 ## v1.2.5 (2024-01-23)
 
 ### Fix
