@@ -63,3 +63,4 @@ Although we expect to handle camera motion in the future, currently large degree
 _Subject motion_
 
 Similar to camera motion, we have found that subject motion can degrade the ability to reliably generate a respiratory rate measurement and to a lesser degree, a heart rate measurement.  It takes approximately 10 seconds of video with a stationary subject before a new vital measurement is returned. If a subject moves their head significantly, that counter resets.  We recommend the subject remains still, with their gaze pointed towards the acquiring camera. The subject should also refrain from talking as this leads to errors in respiration rate measurements.
+
