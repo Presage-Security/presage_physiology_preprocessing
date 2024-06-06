@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.7 (2024-06-06)
+
+### Fix
+
+* **setup.py:** Make package versions exact ([`8be7dd4`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/8be7dd4ec316e05eb74e216c03069290bfbb334d))
+
 ## v1.2.6 (2024-02-12)
 
 ### Fix
