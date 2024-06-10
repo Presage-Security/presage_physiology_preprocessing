@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.8 (2024-06-10)
+
+### Fix
+
+* **setup.py,requirements.py:** Downgrade to the exact version of numpy that Physiology core is using ([`d4d04d5`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/d4d04d5b25bc10a9d0901b2d947f44dab4c2f516))
+
 ## v1.2.7 (2024-06-06)
 
 ### Fix
