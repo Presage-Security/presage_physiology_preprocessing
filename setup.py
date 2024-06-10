@@ -3,7 +3,7 @@ from pathlib import Path
 from distutils.util import convert_path
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
-requirements = ['mediapipe==0.10.8','numpy==1.26.2','ffmpeg-python==0.2.0','opencv-python==4.5.5.64']
+requirements = ['mediapipe==0.10.8','numpy==1.23.3','ffmpeg-python==0.2.0','opencv-python==4.5.5.64']
 main_ns = {}
 ver_path = convert_path('presage_physiology_preprocessing/version.py') # nosec
 with open(ver_path) as ver_file: # nosec
