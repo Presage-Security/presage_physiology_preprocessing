@@ -12,8 +12,8 @@ kiwisolver==1.4.5
 matplotlib==3.8.2
 mediapipe==0.10.8
 numpy==1.23.3
-opencv-contrib-python==4.8.1.78
-opencv-python==4.5.5.64
+opencv-contrib-python==4.10.0.82
+opencv-python==4.10.0.82
 packaging==23.2
 Pillow==10.2.0
 protobuf==3.20.3
