@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.9 (2024-06-18)
+
+### Fix
+
+* **requirements.py:** Dependency fixes ([`51d812a`](https://source.presagesecurity.com/presage/developers/presage_physiology_preprocessing/-/commit/51d812a7b55176fdf1c5baa4cf502dc2986534e7))
+
 ## v1.2.8 (2024-06-10)
 
 ### Fix
